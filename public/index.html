@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      @import 'https://unpkg.com/open-props';
+      @import 'https://unpkg.com/open-props/normalize.min.css';
+      @import 'https://unpkg.com/open-props/buttons.min.css';
+
+      .loader {
+        text-align: center;
+        max-inline-size: 100vw;
+      }
+
+      .suspense {
+        border: none;
+        transform: scale(0);
+        opacity: 0;
+      }
+
+      * {
+        transition: all 0.5s;
+      }
+    </style>
+    <title>Random Excerpt From Notion</title>
+  </head>
+  <body>
+    <h2 class="loader">Loading</h2>
+    <figure>
+      <blockquote class="quote suspense"></blockquote>
+      <figcaption class="source suspense"></figcaption>
+    </figure>
+    <script>
+      const loader = document.querySelector('.loader');
+      const quote = document.querySelector('.quote');
+      const source = document.querySelector('.source');
+
+      fetch('/data')
+        .then((res) => res.json())
+        .then((data) => {
+          loader.style.display = 'none';
+          quote.textContent = data.content;
+          quote.classList.remove('suspense');
+          source.textContent = `${data.book}, ${data.chapter}, p. ${data.page}`;
+          source.classList.remove('suspense');
+        });
+    </script>
+  </body>
+</html>
